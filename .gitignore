@@ -1,14 +1,33 @@
-# notes, demo docs and the pictures that go with them stay local
-docs/
-*.md
-
-# demo drivers, flashers and rehearsal scripts stay local
+# --- local demo material: rehearsal drivers, flashers, notes, images ---
 tools/
+docs/*.png
+docs/*.svg
+*.log
 
-# build outputs
+# --- build output ---
 .pio/
 .pioenvs/
 .piolibdeps/
 __pycache__/
-*.pyc
-*.log
+*.py[cod]
+*.elf
+*.map
+*.uf2
+*.bin
+target/
+build/
+
+# --- local Python env ---
+.venv/
+venv/
+*.egg-info/
+
+# --- editor / OS ---
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# --- local secrets ---
+.env
+.env.*
