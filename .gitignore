@@ -1,0 +1,6 @@
+target/
+.pio/
+*.uf2
+*.bin
+__pycache__/
+.venv/

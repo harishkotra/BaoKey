@@ -1,0 +1,42 @@
+diff --git a/apps-dabao/dabao-console/src/cmds.rs b/apps-dabao/dabao-console/src/cmds.rs
+index 24de39b..9d59032 100644
+--- a/apps-dabao/dabao-console/src/cmds.rs
++++ b/apps-dabao/dabao-console/src/cmds.rs
+@@ -102,6 +102,10 @@ mod touch;
+ use touch::*;
+ mod bio;
+ use bio::*;
++mod sealed;
++use sealed::*;
++mod vault;
++use vault::*;
+ 
+ pub struct CmdEnv {
+     common_env: CommonEnv,
+@@ -116,6 +120,8 @@ pub struct CmdEnv {
+     ws2812_cmd: Ws2812,
+     touch_cmd: Touch,
+     bio: BioLoader,
++    sealed: SealedCmd,
++    vault: VaultCmd,
+ }
+ impl CmdEnv {
+     pub fn new(xns: &xous_names::XousNames, echo: Arc<AtomicBool>) -> CmdEnv {
+@@ -147,6 +153,8 @@ impl CmdEnv {
+             ws2812_cmd: Ws2812::new(),
+             touch_cmd: Touch::new(),
+             bio: BioLoader::new(),
++            sealed: SealedCmd::new(&xns),
++            vault: VaultCmd::new(&xns),
+         }
+     }
+ 
+@@ -177,6 +185,8 @@ impl CmdEnv {
+             &mut self.ws2812_cmd,
+             &mut self.touch_cmd,
+             &mut self.bio,
++            &mut self.sealed,
++            &mut self.vault,
+         ];
+ 
+         if let Some(cmdline) = maybe_cmdline {
