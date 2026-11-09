@@ -66,10 +66,30 @@ def read_until(fd, stop_line, secs=20.0, echo=False):
     return ""
 
 
+def settle(fd, secs=0.6):
+    """Drain whatever the port queued while it was closed.
+
+    Opening a USB serial port toggles DTR/RTS, which can nudge the ESP32's
+    auto-reset circuit; give it a moment and throw away the stale bytes.
+    """
+    end = time.time() + secs
+    while time.time() < end:
+        try:
+            if not os.read(fd, 4096):
+                time.sleep(0.05)
+        except (BlockingIOError, OSError):
+            time.sleep(0.05)
+
+
 def answer(hexact, s3, dab, verbose=True):
     """One request from the host: host asks, vault answers, host is told."""
-    os.write(s3, ("ACT " + hexact + "\r\n").encode())
-    req = read_until(s3, "REQ ", secs=5.0, echo=verbose)
+    req = ""
+    for attempt in range(2):
+        os.write(s3, ("ACT " + hexact + "\r\n").encode())
+        req = read_until(s3, "REQ ", secs=5.0, echo=verbose)
+        if req:
+            break
+        settle(s3, 0.5)
     if not req:
         print("  host never forwarded the request")
         return 1
@@ -104,6 +124,8 @@ def main():
 
     s3 = baokey.open_port(S3_PORT)
     dab = baokey.open_port(DAB_PORT)
+    settle(s3)
+    settle(dab, 0.3)
     try:
         if args.cmd == "ping":
             os.write(s3, b"PING\r\n")
