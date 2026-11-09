@@ -96,3 +96,42 @@ of the trust decision.
 > capped at five minutes, and closing it is instant. Presence is never the same
 > thing as authorization: the cap and the allowlist are checked on every single
 > request, window or no window."
+
+## How to check it works, in four moves
+
+**1. The boundary holds, with nothing in your hands**
+
+```
+./tools/selftest.py
+```
+
+Six checks over the real path (host → relay → vault): the host answers, it says
+which firmware it is running, a stranger address is refused, an over-cap amount
+is refused, a duplicate request earns nothing. Expect `6/6 checks passed`, exit 0.
+
+**2. The screen tells the truth**
+
+With `honest` flashed, the same requests show `REFUSED` and the reason
+(`NOT_ALLOWED`, `OVER_CAP`) on the panel, and the speaker says refused.
+
+**3. The screen can lie**
+
+```
+./tools/flash.sh hostile    # 12 seconds, same command
+./tools/selftest.py
+```
+
+Now `STATUS` reports `hostile`, the panel says `APPROVED`, the speaker says
+"Approved. Payment sent." — and the vault's answer in the terminal is still
+`DENY NOT_ALLOWED`. The screen and voice are output, not evidence.
+
+**4. One touch, then hands off**
+
+```
+./tools/arm_demo.py
+```
+
+It prints `touch PB1 now`; hold the pad about a second. You get two signatures
+on fresh nonces without touching again, a refusal for 0.5 ETH, a refusal for a
+stranger address, `vault lock`, and a final request refused for want of
+presence.
