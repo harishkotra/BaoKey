@@ -1,6 +1,14 @@
-target/
+# notes, demo docs and the pictures that go with them stay local
+docs/
+*.md
+
+# demo drivers, flashers and rehearsal scripts stay local
+tools/
+
+# build outputs
 .pio/
-*.uf2
-*.bin
+.pioenvs/
+.piolibdeps/
 __pycache__/
-.venv/
+*.pyc
+*.log
