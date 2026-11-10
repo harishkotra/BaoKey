@@ -81,7 +81,7 @@ def settle(fd, secs=0.6):
             time.sleep(0.05)
 
 
-def answer(hexact, s3, dab, verbose=True):
+def answer(hexact, s3, dab, verbose=True, secs=25.0):
     """One request from the host: host asks, vault answers, host is told."""
     req = ""
     for attempt in range(2):
@@ -97,7 +97,7 @@ def answer(hexact, s3, dab, verbose=True):
     if verbose:
         print(f"  host -> relay: {payload[:32]}… ({len(payload)//2} bytes)")
 
-    out = baokey.ask(dab, "vault exec " + payload, secs=25.0)
+    out = baokey.ask(dab, "vault exec " + payload, secs=secs)
     kv = baokey.parse_kv(out)
     verdict = kv.get("VERDICT", "?")
     reason = kv.get("REASON", "?")

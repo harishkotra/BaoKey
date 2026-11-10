@@ -1,5 +1,4 @@
-# --- local demo material: rehearsal drivers, flashers, notes, images ---
-tools/
+# --- local artifacts: diagrams and logs; the tooling itself is tracked ---
 docs/*.png
 docs/*.svg
 *.log

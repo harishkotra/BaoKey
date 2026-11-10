@@ -331,6 +331,8 @@ esptool.py --chip esp32s3 -p /dev/cu.usbserial-110 -b 460800 \
 
 > Seeing `RTC_SW_SYS_RST` reset loops at ~30/s with a saved PC inside the bootloader? You described the flash to the chip in a way its bootloader cannot map. Use a 4 MB geometry and `default.csv`; the part may be 16 MB, but the application needs 576 KB of it.
 
+The same four-section write, plus the geometry pins and a firmware selector, is `tools/flash.sh honest|hostile`. `tools/selftest.py` walks six checks over the live path and exits non-zero if any regress; `tools/record_scene.py` runs a fixed, paced take so the screen and speaker can be filmed.
+
 ## Try it
 
 ```sh
