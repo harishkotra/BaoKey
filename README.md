@@ -4,6 +4,12 @@
 
 BaoKey holds an ECDSA P-256 key on a chip you can hold in your hand. Applications ask it to sign payment-like actions. The vault reads the request itself, checks it against a policy stored in RRAM, waits for a human to touch the silicon, and only then produces a signature — plus a receipt appended to a hash chain.
 
+<img width="1183" height="2560" alt="2026-11-10 20 19 06" src="https://github.com/user-attachments/assets/1667caca-e00b-421c-a733-40681a3dbc81" />
+<img width="1848" height="4000" alt="20261110_200443" src="https://github.com/user-attachments/assets/633aa4ef-dc67-41f6-8dfa-c3bd7fba3041" />
+<img width="1848" height="4000" alt="20261110_200330" src="https://github.com/user-attachments/assets/6e0af83c-9285-4003-bf19-216789ffe2b5" />
+
+https://github.com/user-attachments/assets/877cce49-4721-4871-b532-bd582d6ccb29
+
 The screen, the speaker, the WiFi and the buttons all belong to a second board: an ESP32-S3 on a Goouuu S3 carrier. That board is **deliberately untrusted**. It can be reflashed with hostile firmware mid-demo and the vault still refuses. That is the point of the project: in almost every hardware wallet the display is what you trust, so a compromised display is a total loss. Here the display is the attacker.
 
 ```
@@ -412,10 +418,6 @@ Good places to start, roughly by size:
 Contribution shape: one branch per idea; keep `ACT_LEN` and the domain separator untouched, or update `docs/PROTOCOL.md`, the KAT and all three implementations together; and include the tool output that proves your change. "It compiles" is not evidence here.
 
 ## Credits
-
-Built by **Harish Kotra** — [harishkotra.me](https://harishkotra.me)
-
-Check out my other builds — [dailybuild.xyz](https://dailybuild.xyz)
 
 BaoKey is an entry for the CrossBar Dabao open-hardware hackathon: the Baochip-1x is the vault, the ESP32-S3 is the liar.
 
